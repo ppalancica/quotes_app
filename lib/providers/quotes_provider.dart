@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../models/quote.dart';
 import '../services/quotes_service.dart';
-import '../services/favorites_service.dart';
+import '../loaders/favorites_local_loader.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class QuotesProvider with ChangeNotifier {
   
   final QuotesService _quoteService = QuotesService();
-  final FavoritesService _favoriteServiceService = FavoritesService();
+  final FavoritesLocalLoader _favoritesLocalLoader = FavoritesLocalLoader();
 
   List<Quote> _allQuotes = [];
   List<Quote> _filteredQuotes = [];
@@ -37,7 +37,7 @@ class QuotesProvider with ChangeNotifier {
         _allQuotes = await _quoteService.getCachedQuotes();
       }
 
-      _favoriteIds = await _favoriteServiceService.getFavoriteIds();
+      _favoriteIds = await _favoritesLocalLoader.getFavoriteIds();
       for (var quote in _allQuotes) {
         quote.isFavorite = _favoriteIds.contains(quote.id);
       }
@@ -65,7 +65,7 @@ class QuotesProvider with ChangeNotifier {
       _favoriteIds.remove(quote.id);
     }
 
-    _favoriteServiceService.saveFavorites(
+    _favoritesLocalLoader.saveFavorites(
         _allQuotes.where((q) => q.isFavorite).toList());
     notifyListeners();
   }

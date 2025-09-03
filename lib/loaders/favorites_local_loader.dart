@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/quote.dart';
 
-class FavoritesService {
+class FavoritesLocalLoader {
 
   Future<void> saveFavorites(List<Quote> favorites) async {
     final prefs = await SharedPreferences.getInstance();
