@@ -13,6 +13,8 @@ class QuotesProvider with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  List<Quote> get favorites => [];
+
   Future<void> loadQuotes({bool forceRefresh = false}) async {
     _isLoading = true;
     notifyListeners();
