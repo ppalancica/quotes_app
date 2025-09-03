@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'providers/quotes_provider.dart';
+import 'screens/quotes_screen.dart';
+import 'screens/favorites_screen.dart';
 
 void main() {
   runApp(const QuotesApp());
@@ -7,15 +11,18 @@ void main() {
 class QuotesApp extends StatelessWidget {
   const QuotesApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Quotes App Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return ChangeNotifierProvider(
+      create: (_) => QuotesProvider()..loadQuotes(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Quotes Flutter App',
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+        ),
+        home: const QuotesHomePage(title: "Quotes"),
       ),
-      home: const QuotesHomePage(title: 'Quotes'),
     );
   }
 }
@@ -30,22 +37,38 @@ class QuotesHomePage extends StatefulWidget {
 }
 
 class _QuotesHomePageState extends State<QuotesHomePage> {
+  int _currentIndex = 0;
+
+  final _screens = const [
+    QuotesScreen(),
+    FavoritesScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: const Text('Quotes App'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("Quotes Home Page"),
-          ],
-        ),
-      )
+      body: _screens[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.format_quote),
+            label: 'Quotes',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
+          ),
+        ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
     );
   }
 }
