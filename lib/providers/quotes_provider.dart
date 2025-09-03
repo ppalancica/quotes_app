@@ -15,6 +15,8 @@ class QuotesProvider with ChangeNotifier {
 
   List<Quote> get favorites => [];
 
+  List<int> _favoriteIds = [];
+
   Future<void> loadQuotes({bool forceRefresh = false}) async {
     _isLoading = true;
     notifyListeners();
