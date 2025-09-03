@@ -4,11 +4,14 @@ import '../models/quote.dart';
 import '../services/quote_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-class QuoteProvider with ChangeNotifier {
+class QuotesProvider with ChangeNotifier {
   final QuoteService _quoteService = QuoteService();
 
   List<Quote> _allQuotes = [];
+  List<Quote> get quotes => _allQuotes;
+  
   bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   Future<void> loadQuotes({bool forceRefresh = false}) async {
     _isLoading = true;
