@@ -13,8 +13,9 @@ class QuotesProvider with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  List<Quote> get favorites => [];
-
+  List<Quote> get favorites =>
+      _allQuotes.where((q) => q.isFavorite).toList();
+  
   List<int> _favoriteIds = [];
 
   Future<void> loadQuotes({bool forceRefresh = false}) async {
