@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import '../models/quote.dart';
 import '../services/quotes_service.dart';
+import '../loaders/quotes_local_loader.dart';
 import '../loaders/favorites_local_loader.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class QuotesProvider with ChangeNotifier {
   
   final QuotesService _quoteService = QuotesService();
+  final QuotesLocalLoader _quotesLocalLoader = QuotesLocalLoader();
   final FavoritesLocalLoader _favoritesLocalLoader = FavoritesLocalLoader();
 
   List<Quote> _allQuotes = [];
@@ -32,9 +34,9 @@ class QuotesProvider with ChangeNotifier {
     try {
       if (isOnline || forceRefresh) {
         _allQuotes = await _quoteService.fetchQuotes();
-        await _quoteService.cacheQuotes(_allQuotes);
+        await _quotesLocalLoader.cacheQuotes(_allQuotes);
       } else {
-        _allQuotes = await _quoteService.getCachedQuotes();
+        _allQuotes = await _quotesLocalLoader.getCachedQuotes();
       }
 
       _favoriteIds = await _favoritesLocalLoader.getFavoriteIds();
