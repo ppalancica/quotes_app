@@ -27,9 +27,17 @@ class QuotesProvider with ChangeNotifier {
     try {
       if (isOnline || forceRefresh) {
         _allQuotes = await _quoteService.fetchQuotes();
+        await _quoteService.cacheQuotes(_allQuotes);
       } else {
-        _allQuotes = []; // Load from cache later
+        _allQuotes = await _quoteService.getCachedQuotes();
       }
+
+      _favoriteIds = await _quoteService.getFavoriteIds();
+      for (var quote in _allQuotes) {
+        quote.isFavorite = _favoriteIds.contains(quote.id);
+      }
+
+      // Apply some Filtering if needed
     } catch (e) {
       print("Error loading quotes: $e");
     }
