@@ -23,8 +23,8 @@ class QuoteRow extends StatelessWidget {
         subtitle: Text('- ${quote.author}'),
         trailing: IconButton(
           icon: Icon(
-            Icons.favorite,
-            color: Colors.red,
+            quote.isFavorite ? Icons.favorite : Icons.favorite_border,
+            color: quote.isFavorite ? Colors.red : Colors.grey,
           ),
           onPressed: onFavoriteToggle,
         ),

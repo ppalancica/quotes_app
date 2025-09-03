@@ -2,11 +2,13 @@ class Quote {
   final int id;
   final String quote;
   final String author;
+  bool isFavorite;
 
   Quote({
     required this.id,
     required this.quote,
-    required this.author
+    required this.author,
+    this.isFavorite = false,
   });
 
   factory Quote.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class Quote {
   Map<String, dynamic> toJson() => {
     'id': id,
     'quote': quote,
-    'author': author
+    'author': author,
+    'isFavorite': isFavorite,
   };
 }
