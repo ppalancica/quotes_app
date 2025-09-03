@@ -10,15 +10,18 @@ class QuotesProvider with ChangeNotifier {
   final FavoritesService _favoriteServiceService = FavoritesService();
 
   List<Quote> _allQuotes = [];
-  List<Quote> get quotes => _allQuotes;
-  
+  List<Quote> _filteredQuotes = [];
+  List<int> _favoriteIds = [];
+
   bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  String _searchQuery = '';  
+
+  List<Quote> get quotes => _filteredQuotes;
 
   List<Quote> get favorites =>
       _allQuotes.where((q) => q.isFavorite).toList();
   
-  List<int> _favoriteIds = [];
+  bool get isLoading => _isLoading;
 
   Future<void> loadQuotes({bool forceRefresh = false}) async {
     _isLoading = true;
@@ -39,7 +42,7 @@ class QuotesProvider with ChangeNotifier {
         quote.isFavorite = _favoriteIds.contains(quote.id);
       }
 
-      // Apply some Filtering if needed
+      _applyFilter();
     } catch (e) {
       print("Error loading quotes: $e");
     }
@@ -64,6 +67,27 @@ class QuotesProvider with ChangeNotifier {
 
     _favoriteServiceService.saveFavorites(
         _allQuotes.where((q) => q.isFavorite).toList());
+    notifyListeners();
+  }
+
+  void _applyFilter() {
+    if (_searchQuery.isEmpty) {
+      _filteredQuotes = [..._allQuotes];
+    } else {
+      _filteredQuotes = _allQuotes.where((quote) {
+        return quote.quote
+                .toLowerCase()
+                .contains(_searchQuery.toLowerCase()) ||
+            quote.author
+                .toLowerCase()
+                .contains(_searchQuery.toLowerCase());
+      }).toList();
+    }
+  }
+
+  void updateSearchQuery(String query) {
+    _searchQuery = query;
+    _applyFilter();
     notifyListeners();
   }
 }

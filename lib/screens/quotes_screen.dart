@@ -14,6 +14,16 @@ class QuotesScreen extends StatelessWidget {
       onRefresh: () => provider.loadQuotes(forceRefresh: true),
       child: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: 'Search by text or author',
+                border: OutlineInputBorder(),
+              ),
+              onChanged: provider.updateSearchQuery,
+            ),
+          ),
           Expanded(
             child: provider.isLoading
                 ? const Center(child: CircularProgressIndicator())
