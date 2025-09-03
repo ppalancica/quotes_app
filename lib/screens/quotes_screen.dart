@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/providers/quotes_provider.dart';
+import '../widgets/quote_row.dart';
 
 class QuotesScreen extends StatelessWidget {
   const QuotesScreen({super.key});
@@ -22,7 +23,11 @@ class QuotesScreen extends StatelessWidget {
                         itemCount: provider.quotes.length,
                         itemBuilder: (context, index) {
                           final quote = provider.quotes[index];
-                          return Text(quote.quote);
+                          return QuoteRow(
+                            quote: quote,
+                            onFavoriteToggle: () =>
+                                provider.toggleFavorite(quote),
+                          );
                         },
                       ),
           ),

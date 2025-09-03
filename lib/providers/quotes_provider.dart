@@ -41,4 +41,18 @@ class QuotesProvider with ChangeNotifier {
     final connectivity = await Connectivity().checkConnectivity();
     return connectivity != ConnectivityResult.none;
   }
+
+  void toggleFavorite(Quote quote) {
+    quote.isFavorite = !quote.isFavorite;
+
+    if (quote.isFavorite) {
+      _favoriteIds.add(quote.id);
+    } else {
+      _favoriteIds.remove(quote.id);
+    }
+
+    _quoteService.saveFavorites(
+        _allQuotes.where((q) => q.isFavorite).toList());
+    notifyListeners();
+  }
 }
