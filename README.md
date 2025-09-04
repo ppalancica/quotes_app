@@ -64,3 +64,15 @@ I've used the 'connectivity_plus' package because I wanted to have an easy way o
 I've used the 'provider' package because I needed to use Dependency Injection and implement some basic State Management so that the related UI updates automatically when related Model change are done on a different screen.
 
 I've closed the 'shared_preferences' package because I've used the SharedPreferences for Local Storage when I've implemented Quotes Caching and Favorites features. (Note that in a production app, especially when the number of quotes are much bigger or we want to add pagination - I would use something different, such as SQLite or something that scales better, but for small data sets, using SharedPreferences also works fine).
+
+# Running Tests
+
+There are 3 tests I've made:
+
+- quote_test
+- favorite_toggle_test
+- quotes_service_test (quotes_service_test.mocks was generated using mockito package)
+
+To run all tests, use this command in the VS Code Terminal:
+
+flutter test

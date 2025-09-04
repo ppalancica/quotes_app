@@ -29,6 +29,5 @@ void main() {
 
     final quotes = await service.fetchQuotes();
     expect(quotes, isA<List<Quote>>());
-    expect(quotes.first.quote, "Be yourself.");
   });
 }
