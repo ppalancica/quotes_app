@@ -92,4 +92,8 @@ class QuotesProvider with ChangeNotifier {
     _applyFilter();
     notifyListeners();
   }
+
+  void resetListViewToNormalState() {
+    updateSearchQuery('');
+  }
 }

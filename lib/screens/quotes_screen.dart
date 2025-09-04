@@ -22,6 +22,7 @@ class QuotesScreen extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
               onChanged: provider.updateSearchQuery,
+              onSubmitted: (value) => provider.resetListViewToNormalState(),
             ),
           ),
           Expanded(
