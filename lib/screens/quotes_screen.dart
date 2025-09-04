@@ -38,7 +38,7 @@ class _QuotesScreenState extends State<QuotesScreen> {
               ),
               onChanged: provider.updateSearchQuery,
               onSubmitted: (value) {
-                provider.resetListViewToNormalState();
+                provider.resetFromSearchModeToNormalMode();
                 _searchController.clear();
               },
             ),

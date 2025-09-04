@@ -93,7 +93,7 @@ class QuotesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void resetListViewToNormalState() {
+  void resetFromSearchModeToNormalMode() {
     updateSearchQuery('');
   }
 }
