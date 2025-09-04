@@ -3,8 +3,22 @@ import 'package:provider/provider.dart';
 import 'package:quotes_app/providers/quotes_provider.dart';
 import '../widgets/quote_row.dart';
 
-class QuotesScreen extends StatelessWidget {
+class QuotesScreen extends StatefulWidget {
   const QuotesScreen({super.key});
+
+  @override
+  State<QuotesScreen> createState() => _QuotesScreenState();
+}
+
+class _QuotesScreenState extends State<QuotesScreen> {
+  
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +31,16 @@ class QuotesScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(12),
             child: TextField(
+              controller: _searchController,
               decoration: const InputDecoration(
                 labelText: 'Search by text or author',
                 border: OutlineInputBorder(),
               ),
               onChanged: provider.updateSearchQuery,
-              onSubmitted: (value) => provider.resetListViewToNormalState(),
+              onSubmitted: (value) {
+                provider.resetListViewToNormalState();
+                _searchController.clear();
+              },
             ),
           ),
           Expanded(
